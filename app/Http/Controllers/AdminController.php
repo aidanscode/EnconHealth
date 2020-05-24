@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Configuration;
+use App\Models\EmailList;
 
 class AdminController extends Controller {
 
@@ -16,11 +17,14 @@ class AdminController extends Controller {
     $agreementText = Configuration::getString(Configuration::KEY_AGREEMENT_TEXT);
     $dailyEmailEnabled = Configuration::getBoolean(Configuration::KEY_SEND_DAILY_EMAIL);
 
+    $emailList = EmailList::all()->pluck('email')->all();
+
     return view('admin.configure', [
       'agreementText' => $agreementText,
       'agreementTextKey' => Configuration::KEY_AGREEMENT_TEXT,
       'dailyEmailEnabled' => $dailyEmailEnabled,
-      'dailyEmailEnabledKey' => Configuration::KEY_SEND_DAILY_EMAIL
+      'dailyEmailEnabledKey' => Configuration::KEY_SEND_DAILY_EMAIL,
+      'emailList' => $emailList
     ]);
   }
 
@@ -35,6 +39,17 @@ class AdminController extends Controller {
     Configuration::set($key, $value);
 
     return redirect(route('admin.configure'))->with('status', 'Successfully updated the configuration!');
+  }
+
+  public function updateEmailList(Request $request) {
+    $request->validate([
+      'emails' => 'array'
+    ]);
+
+    $newEmails = $request->input('emails');
+    EmailList::updateEmailList($newEmails);
+
+    return redirect(route('admin.configure'))->with('status', 'Successfully updated email list!');
   }
 
   public function admins() {

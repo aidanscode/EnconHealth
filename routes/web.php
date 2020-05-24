@@ -20,6 +20,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function() {
 
   Route::get('/configure', 'AdminController@configure')->name('admin.configure');
   Route::post('/configure', 'AdminController@updateConfiguration')->name('admin.configure.store');
+  Route::post('/configure/emails', 'AdminController@updateEmailList')->name('admin.configure.emails');
 
   Route::get('/admins', 'AdminController@admins')->name('admin.admins');
 });

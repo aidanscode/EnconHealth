@@ -21,12 +21,13 @@
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
-        @include('inc.navbar')
+  <div id="app">
+    @include('inc.navbar')
 
-        <main class="py-4">
-            @yield('content')
-        </main>
-    </div>
+    <main class="py-4">
+      @yield('content')
+    </main>
+  </div>
+  @yield('scripts')
 </body>
 </html>

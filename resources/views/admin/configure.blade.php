@@ -1,5 +1,17 @@
 @extends('layouts.app')
 
+@section('scripts')
+<script>
+  var emails = [
+    @foreach($emailList as $email)
+    "{{ $email }}",
+    @endforeach
+  ];
+</script>
+
+<script src="{{ asset('js/pages/configuration.js') }}" defer></script>
+@endsection
+
 @section('content')
 <div class="container">
   @if(session('status'))
@@ -44,6 +56,28 @@
   </form>
 
   <h3 class="mt-5">Email List</h3>
-  <h3>todo...</h3>
+  <form action="{{ route('admin.configure.emails') }}" method="POST">
+    @csrf
+
+    <div id="email-list"></div>
+
+    <div class="input-group mb-3">
+      <input type="email" id="add-email-input" class="form-control" placeholder="Recipient's Email Address" aria-label="Recipient's Email Address">
+      <div class="input-group-append">
+        <button class="btn btn-success" id="add-email-btn" type="button">+</button>
+      </div>
+    </div>
+
+    <input type="submit" class="btn btn-primary mt-3 d-block" value="Save" />
+  </form>
 </div>
+
+<template id="email">
+  <div class="input-group mb-3">
+    <input type="email" name="emails[]" class="form-control" placeholder="Recipient's Email Address" aria-label="Recipient's Email Address" readonly>
+    <div class="input-group-append">
+      <button class="btn btn-danger remove-email-btn" type="button">-</button>
+    </div>
+  </div>
+</template>
 @endsection

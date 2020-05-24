@@ -11,7 +11,7 @@
   <div class="row">
 
     <div class="col-12 col-md-6">
-      <a href="{{ route('admin.configure') }}" class="btn btn-primary btn-massive btn-link-fix">Responses by Day</a>
+      <a href="{{ route('admin.responses.day') }}" class="btn btn-primary btn-massive btn-link-fix">Responses by Day</a>
     </div>
 
     <div class="col-12 col-md-6">

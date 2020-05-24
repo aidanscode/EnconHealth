@@ -22,5 +22,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function() {
   Route::post('/configure', 'AdminController@updateConfiguration')->name('admin.configure.store');
   Route::post('/configure/emails', 'AdminController@updateEmailList')->name('admin.configure.emails');
 
+  Route::get('/responses/day', 'AdminController@byDay')->name('admin.responses.day');
+  Route::post('/responses/day', 'AdminController@byDay')->name('admin.responses.day.ajax');
   Route::get('/admins', 'AdminController@admins')->name('admin.admins');
 });

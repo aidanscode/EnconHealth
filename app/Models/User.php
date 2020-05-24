@@ -6,6 +6,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use Carbon\Carbon;
+
 class User extends Authenticatable implements MustVerifyEmail {
 
   use Notifiable;
@@ -32,6 +34,14 @@ class User extends Authenticatable implements MustVerifyEmail {
 
   public function responses() {
     return $this->hasMany(Response::class);
+  }
+
+  /**
+   * Same as responses() but only returns one result
+   * This is useful for mass queries with filters (ex: select all users' responses for a specific day)
+   */
+  public function response() {
+    return $this->hasOne(Response::class);
   }
 
   public function hasRespondedToday() {

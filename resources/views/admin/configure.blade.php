@@ -43,12 +43,24 @@
     <input type="submit" class="btn btn-primary mt-3" value="Save" />
   </form>
 
-  <h3 class="mt-5">Daily Email Enabled</h3>
+  <h3 class="mt-5">Send Daily Email</h3>
   <form action="{{ route('admin.configure.store') }}" method="POST">
     @csrf
     <input type="hidden" name="key" value="{{ $dailyEmailEnabledKey }}" />
     <label class="switch">
       <input type="checkbox" name="value" value="1" {{ $dailyEmailEnabled ? 'checked' : '' }}>
+      <span class="slider"></span>
+    </label>
+
+    <input type="submit" class="btn btn-primary mt-3 d-block" value="Save" />
+  </form>
+
+  <h3 class="mt-5">Send Daily Email on Weekends</h3>
+  <form action="{{ route('admin.configure.store') }}" method="POST">
+    @csrf
+    <input type="hidden" name="key" value="{{ $dailyEmailWeekendsEnabledKey }}" />
+    <label class="switch">
+      <input type="checkbox" name="value" value="1" {{ $dailyEmailWeekendsEnabled ? 'checked' : '' }}>
       <span class="slider"></span>
     </label>
 

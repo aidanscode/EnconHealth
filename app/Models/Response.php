@@ -15,6 +15,10 @@ class Response extends Model {
     return $this->belongsTo(User::class);
   }
 
+  public function getFriendlyCreatedAtDateTime() {
+    return $this->created_at->format('l \a\t g:i A (Y-m-d)');
+  }
+
   public function getFriendlyCreatedAtTime() {
     return $this->created_at->format('g:i A');
   }

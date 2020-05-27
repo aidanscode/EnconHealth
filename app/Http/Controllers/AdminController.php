@@ -20,6 +20,7 @@ class AdminController extends Controller {
   public function configure() {
     $agreementText = Configuration::getString(Configuration::KEY_AGREEMENT_TEXT);
     $dailyEmailEnabled = Configuration::getBoolean(Configuration::KEY_SEND_DAILY_EMAIL);
+    $dailyEmailWeekendsEnabled = Configuration::getBoolean(Configuration::KEY_SEND_DAILY_EMAIL_ON_WEEKENDS);
 
     $emailList = EmailList::all()->pluck('email')->all();
 
@@ -28,6 +29,8 @@ class AdminController extends Controller {
       'agreementTextKey' => Configuration::KEY_AGREEMENT_TEXT,
       'dailyEmailEnabled' => $dailyEmailEnabled,
       'dailyEmailEnabledKey' => Configuration::KEY_SEND_DAILY_EMAIL,
+      'dailyEmailWeekendsEnabled' => $dailyEmailWeekendsEnabled,
+      'dailyEmailWeekendsEnabledKey' => Configuration::KEY_SEND_DAILY_EMAIL_ON_WEEKENDS,
       'emailList' => $emailList
     ]);
   }
@@ -35,7 +38,7 @@ class AdminController extends Controller {
   public function updateConfiguration(Request $request) {
     $request->validate([
       'key' => 'required|string|exists:configuration,key',
-      'value' => 'required_unless:key,' . Configuration::KEY_SEND_DAILY_EMAIL . '|string'
+      'value' => 'required_if:key,' . Configuration::KEY_AGREEMENT_TEXT . '|string'
     ]);
 
     $key = $request->input('key');
@@ -71,7 +74,7 @@ class AdminController extends Controller {
     ]);
   }
 
-  public function byDayFetch($date) {
+  private function byDayFetch($date) {
     if ($date != null) {
       try {
         $date = Carbon::parse($date)->format('Y-m-d');
@@ -106,6 +109,37 @@ class AdminController extends Controller {
     }
 
     return $results;
+  }
+
+  public function byEmployee(Request $request) {
+    if ($request->ajax()) {
+      $employee = $request->input('employee');
+
+      return response()->json($this->byEmployeeFetch($employee));
+    }
+
+    $users = User::orderBy('first_name', 'ASC')->get();
+    $positiveType = ResponseType::getPositiveResponseType();
+    $negativeType = ResponseType::getNegativeResponseType();
+
+    return view('admin.responses_by_employees', [
+      'users' => $users,
+      'positiveType' => $positiveType,
+      'negativeType' => $negativeType
+    ]);
+  }
+
+  private function byEmployeeFetch($employeeId) {
+    $user = User::findOrFail($employeeId);
+
+    $responses = $user->responses()->orderBy('created_at', 'DESC')->get()->map(function($response) {
+      return [
+        'response_type_id' => $response->response_type_id,
+        'created_at' => $response->getFriendlyCreatedAtDateTime()
+      ];
+    });
+
+    return $responses;
   }
 
   public function admins() {

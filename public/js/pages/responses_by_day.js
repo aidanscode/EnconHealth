@@ -56,8 +56,7 @@ filterManager = {
                 });
             }
         }
-    },
-    clearOldResults: () => {}
+    }
 };
 
 let today = new Date();

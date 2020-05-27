@@ -16,6 +16,7 @@ class Configuration extends Model {
 
   const KEY_AGREEMENT_TEXT = 'agreement_text';
   const KEY_SEND_DAILY_EMAIL = 'send_daily_email';
+  const KEY_SEND_DAILY_EMAIL_ON_WEEKENDS = 'send_daily_email_on_weekends';
 
   public static function getString($key, $default = null) {
     $configOption = self::find($key);

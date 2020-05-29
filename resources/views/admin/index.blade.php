@@ -15,7 +15,7 @@
     </div>
 
     <div class="col-12 col-md-6">
-      <a href="{{ route('admin.responses.employee') }}" class="btn btn-primary btn-massive btn-link-fix">Responses by Employee</a>
+      <a href="{{ route('admin.employees') }}" class="btn btn-primary btn-massive btn-link-fix">Employees</a>
     </div>
 
   </div>
@@ -24,10 +24,6 @@
 
     <div class="col-12 col-md-6">
       <a href="{{ route('admin.configure') }}" class="btn btn-primary btn-massive btn-link-fix">Configure App</a>
-    </div>
-
-    <div class="col-12 col-md-6">
-      <a href="{{ route('admin.admins') }}" class="btn btn-primary btn-massive btn-link-fix">Admin Users</a>
     </div>
 
   </div>

@@ -2,14 +2,15 @@
 
 @section('scripts')
 <script>
-  var endpoint = '{{ route('admin.responses.employee.ajax') }}';
+  var employeeEndpoint = '{{ route('admin.employees.ajax') }}';
+  var adminEndpoint = '{{ route('admin.employees.admin') }}';
   var responseTypes = {
     {{ $positiveType->id }}: "{{ $positiveType->name }}",
     {{ $negativeType->id }}: "{{ $negativeType->name }}"
   };
 </script>
 
-<script src="{{ asset('js/pages/responses_by_employee.js') }}" defer></script>
+<script src="{{ asset('js/pages/employees.js') }}" defer></script>
 @endsection
 
 @section('content')
@@ -31,7 +32,7 @@
     </div>
   @endif
 
-  <h1>Responses by Employee</h1>
+  <h1>Employees</h1>
   <br>
 
   <form class="form-inline mb-3">
@@ -47,8 +48,19 @@
     </button>
   </form>
 
-  <div id="result-list"></div>
+  <div id="admin_status" style="display: none;">
+    <form action="{{ route('admin.configure.store') }}" method="POST">
+      @csrf
+      <input type="hidden" name="user_id" id="user_id" value="" />
+      <h5>This user is<span id="is_admin_text"></span>an admin. <span class="can_change_group">Click below to change.</span></h5>
+      <label class="switch can_change_group">
+        <input type="checkbox" id="is_admin_checkbox" name="value" value="1">
+        <span class="slider"></span>
+      </label>
+    </form>
+  </div>
 
+  <div id="response-list" class="mt-3"></div>
 </div>
 
 <template id="response-item">

@@ -10,6 +10,7 @@ use App\Models\EmailList;
 use App\Models\User;
 
 use Carbon\Carbon;
+use Auth;
 
 class AdminController extends Controller {
 
@@ -111,25 +112,25 @@ class AdminController extends Controller {
     return $results;
   }
 
-  public function byEmployee(Request $request) {
+  public function employees(Request $request) {
     if ($request->ajax()) {
       $employee = $request->input('employee');
 
-      return response()->json($this->byEmployeeFetch($employee));
+      return response()->json($this->getEmployeeData($employee));
     }
 
     $users = User::orderBy('first_name', 'ASC')->get();
     $positiveType = ResponseType::getPositiveResponseType();
     $negativeType = ResponseType::getNegativeResponseType();
 
-    return view('admin.responses_by_employees', [
+    return view('admin.employees', [
       'users' => $users,
       'positiveType' => $positiveType,
       'negativeType' => $negativeType
     ]);
   }
 
-  private function byEmployeeFetch($employeeId) {
+  private function getEmployeeData($employeeId) {
     $user = User::findOrFail($employeeId);
 
     $responses = $user->responses()->orderBy('created_at', 'DESC')->get()->map(function($response) {
@@ -139,11 +140,30 @@ class AdminController extends Controller {
       ];
     });
 
+    return [
+      'user_id' => $user->id,
+      'is_admin' => $user->isAdmin(),
+      'is_self' => Auth::id() == $user->id,
+      'responses' => $responses
+    ];
+
     return $responses;
   }
 
-  public function admins() {
-    return 'admins';
+  public function setAdmin(Request $request) {
+    $request->validate([
+      'userId' => 'required',
+      'isAdmin' => 'required|in:true,false'
+    ]);
+
+    $user = User::findOrFail($request->input('userId'));
+    if ($user->id == Auth::id()) {
+      abort(403);
+      return json_encode(['success' => false]);
+    } else {
+      $user->setIsAdmin($request->input('isAdmin') == 'true');
+      return json_encode(['success' => true]);
+    }
   }
 
 }

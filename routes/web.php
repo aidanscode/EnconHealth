@@ -25,8 +25,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function() {
   Route::get('/responses/day', 'AdminController@byDay')->name('admin.responses.day');
   Route::post('/responses/day', 'AdminController@byDay')->name('admin.responses.day.ajax');
 
-  Route::get('/responses/employee', 'AdminController@byEmployee')->name('admin.responses.employee');
-  Route::post('/responses/employee', 'AdminController@byEmployee')->name('admin.responses.employee.ajax');
-
-  Route::get('/admins', 'AdminController@admins')->name('admin.admins');
+  Route::get('/employees', 'AdminController@employees')->name('admin.employees');
+  Route::post('/employee/responses', 'AdminController@employees')->name('admin.employees.ajax');
+  Route::post('/employee/setAdmin', 'AdminController@setAdmin')->name('admin.employees.admin');
 });

@@ -19,4 +19,4 @@ jobs:
             cd ${{ secrets.PROJECT_PATH }}
             git pull
             composer dump-autoload
-            php artisan migrate
+            php artisan migrate --force

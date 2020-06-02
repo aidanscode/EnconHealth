@@ -84,32 +84,12 @@ class AdminController extends Controller {
       }
     }
 
-    //Either we failed to parse the input or $date was nul to begin with
+    //Either we failed to parse the input or $date was null to begin with
     if ($date == null) {
       $date = Carbon::now()->format('Y-m-d');
     }
 
-    $users = User::with(['response' => function($query) use ($date) {
-      $query->whereDate('created_at', $date);
-    }])->get();
-
-    $results = [
-      'positive' => [],
-      'negative' => [],
-      'no_response' => []
-    ];
-
-    foreach($users as $user) {
-      $key = $user->response == null ? 'no_response' : ($user->response->response_type_id == ResponseType::POSITIVE ? 'positive' : 'negative');
-
-      $results[$key][] = [
-        'name' => $user->full_name,
-        'email' => $user->email,
-        'created_at' => $user->response == null ? null : $user->response->getFriendlyCreatedAtTime()
-      ];
-    }
-
-    return $results;
+    return User::getUsersWithDaysResponses($date);
   }
 
   public function employees(Request $request) {

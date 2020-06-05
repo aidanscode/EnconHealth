@@ -17,6 +17,27 @@ $(".config-checkbox").change(function(e) {
 });
 
 //Email list logic
+function updateServerEmailList(action, email, elementToRemove = null) {
+    $.ajax({
+        url: emailListEndpoint,
+        method: "POST",
+        data: { action: action, email: email },
+        dataType: "json",
+        success: () => {
+            if (action == "add") {
+                addToEmailList(email);
+            } else {
+                elementToRemove.remove();
+            }
+        },
+        error: () => {
+            alert(
+                "An error occurred while attempting to update the email list"
+            );
+        }
+    });
+}
+
 function addToEmailList(email) {
     var template = $("#email").html();
     let emailListing = $("<div>");
@@ -37,13 +58,14 @@ $("#add-email-btn").on("click", () => {
         return;
     }
 
-    addToEmailList(newEmail);
+    updateServerEmailList("add", newEmail);
     $("#add-email-input").val("");
 });
 
 $(document).on("click", ".remove-email-btn", e => {
-    let parent = e.target.parentElement.parentElement;
-    parent.remove();
+    let toBeRemoved = e.target.parentElement.parentElement;
+    let email = e.target.parentElement.previousElementSibling.value;
+    updateServerEmailList("remove", email, toBeRemoved);
 });
 
 //On every page load, we "clear" the existing email list and fill it with all the emails defined in emails

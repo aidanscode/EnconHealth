@@ -55,13 +55,18 @@ class AdminController extends Controller {
 
   public function updateEmailList(Request $request) {
     $request->validate([
-      'emails' => 'array'
+      'email' => 'required|string',
+      'action' => 'required|in:add,remove'
     ]);
 
-    $newEmails = $request->input('emails');
-    EmailList::updateEmailList($newEmails);
+    $email = strtolower($request->input('email'));
+    if ($request->input('action') == 'add') {
+      EmailList::addIfNotExists($email);
+    } else {
+      EmailList::removeIfExists($email);
+    }
 
-    return redirect(route('admin.configure'))->with('status', 'Successfully updated email list!');
+    return response()->json(['success' => true]);
   }
 
   public function byDay(Request $request) {

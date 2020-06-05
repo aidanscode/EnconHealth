@@ -2,6 +2,8 @@
 
 @section('scripts')
 <script>
+  var configurationEndpoint = "{{ route('admin.configure.store') }}";
+  var emailListEndpoint = "{{ route('admin.configure.emails') }}";
   var emails = [
     @foreach($emailList as $email)
     "{{ $email }}",
@@ -9,7 +11,7 @@
   ];
 </script>
 
-<script src="{{ asset('js/pages/configuration.js') }}" defer></script>
+<script src="{{ autoversion('js/pages/configuration.js') }}" defer></script>
 @endsection
 
 @section('content')
@@ -44,49 +46,33 @@
   </form>
 
   <h3 class="mt-5">Send Daily Email</h3>
-  <form action="{{ route('admin.configure.store') }}" method="POST">
-    @csrf
-    <input type="hidden" name="key" value="{{ $dailyEmailEnabledKey }}" />
-    <label class="switch">
-      <input type="checkbox" name="value" value="1" {{ $dailyEmailEnabled ? 'checked' : '' }}>
-      <span class="slider"></span>
-    </label>
-
-    <input type="submit" class="btn btn-primary mt-3 d-block" value="Save" />
-  </form>
+  <label class="switch">
+    <input type="checkbox" name="value" class="config-checkbox" data-key="{{ $dailyEmailEnabledKey }}" value="1" {{ $dailyEmailEnabled ? 'checked' : '' }}>
+    <span class="slider"></span>
+  </label>
 
   <h3 class="mt-5">Send Daily Email on Weekends</h3>
-  <form action="{{ route('admin.configure.store') }}" method="POST">
-    @csrf
-    <input type="hidden" name="key" value="{{ $dailyEmailWeekendsEnabledKey }}" />
-    <label class="switch">
-      <input type="checkbox" name="value" value="1" {{ $dailyEmailWeekendsEnabled ? 'checked' : '' }}>
-      <span class="slider"></span>
-    </label>
-
-    <input type="submit" class="btn btn-primary mt-3 d-block" value="Save" />
-  </form>
+  <label class="switch">
+    <input type="checkbox" name="value" class="config-checkbox" data-key="{{ $dailyEmailWeekendsEnabledKey }}" value="1" {{ $dailyEmailWeekendsEnabled ? 'checked' : '' }}>
+    <span class="slider"></span>
+  </label>
 
   <h3 class="mt-5">Email List</h3>
-  <form action="{{ route('admin.configure.emails') }}" method="POST">
-    @csrf
 
-    <div id="email-list"></div>
+  <div id="email-list"></div>
 
-    <div class="input-group mb-3">
-      <input type="email" id="add-email-input" class="form-control" placeholder="Recipient's Email Address" aria-label="Recipient's Email Address">
-      <div class="input-group-append">
-        <button class="btn btn-success" id="add-email-btn" type="button">+</button>
-      </div>
+  <div class="input-group mb-3">
+    <input type="email" id="add-email-input" class="form-control" placeholder="Recipient's Email Address" aria-label="Recipient's Email Address">
+    <div class="input-group-append">
+      <button class="btn btn-success" id="add-email-btn" type="button">+</button>
     </div>
+  </div>
 
-    <input type="submit" class="btn btn-primary mt-3 d-block" value="Save" />
-  </form>
 </div>
 
 <template id="email">
   <div class="input-group mb-3">
-    <input type="email" name="emails[]" class="form-control" placeholder="Recipient's Email Address" aria-label="Recipient's Email Address" readonly>
+    <input type="email" class="form-control" placeholder="Recipient's Email Address" aria-label="Recipient's Email Address" readonly>
     <div class="input-group-append">
       <button class="btn btn-danger remove-email-btn" type="button">-</button>
     </div>

@@ -5,7 +5,7 @@
   var endpoint = '{{ route('admin.responses.day.ajax') }}';
 </script>
 
-<script src="{{ asset('js/pages/responses_by_day.js') }}" defer></script>
+<script src="{{ autoversion('js/pages/responses_by_day.js') }}" defer></script>
 @endsection
 
 @section('content')

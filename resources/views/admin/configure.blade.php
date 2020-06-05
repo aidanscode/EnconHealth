@@ -2,6 +2,7 @@
 
 @section('scripts')
 <script>
+  var configurationEndpoint = "{{ route('admin.configure.store') }}";
   var emails = [
     @foreach($emailList as $email)
     "{{ $email }}",
@@ -44,28 +45,16 @@
   </form>
 
   <h3 class="mt-5">Send Daily Email</h3>
-  <form action="{{ route('admin.configure.store') }}" method="POST">
-    @csrf
-    <input type="hidden" name="key" value="{{ $dailyEmailEnabledKey }}" />
-    <label class="switch">
-      <input type="checkbox" name="value" value="1" {{ $dailyEmailEnabled ? 'checked' : '' }}>
-      <span class="slider"></span>
-    </label>
-
-    <input type="submit" class="btn btn-primary mt-3 d-block" value="Save" />
-  </form>
+  <label class="switch">
+    <input type="checkbox" name="value" class="config-checkbox" data-key="{{ $dailyEmailEnabledKey }}" value="1" {{ $dailyEmailEnabled ? 'checked' : '' }}>
+    <span class="slider"></span>
+  </label>
 
   <h3 class="mt-5">Send Daily Email on Weekends</h3>
-  <form action="{{ route('admin.configure.store') }}" method="POST">
-    @csrf
-    <input type="hidden" name="key" value="{{ $dailyEmailWeekendsEnabledKey }}" />
-    <label class="switch">
-      <input type="checkbox" name="value" value="1" {{ $dailyEmailWeekendsEnabled ? 'checked' : '' }}>
-      <span class="slider"></span>
-    </label>
-
-    <input type="submit" class="btn btn-primary mt-3 d-block" value="Save" />
-  </form>
+  <label class="switch">
+    <input type="checkbox" name="value" class="config-checkbox" data-key="{{ $dailyEmailWeekendsEnabledKey }}" value="1" {{ $dailyEmailWeekendsEnabled ? 'checked' : '' }}>
+    <span class="slider"></span>
+  </label>
 
   <h3 class="mt-5">Email List</h3>
   <form action="{{ route('admin.configure.emails') }}" method="POST">

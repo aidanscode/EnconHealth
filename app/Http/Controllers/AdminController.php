@@ -46,7 +46,11 @@ class AdminController extends Controller {
     $value = $request->input('value', '0');
     Configuration::set($key, $value);
 
-    return redirect(route('admin.configure'))->with('status', 'Successfully updated the configuration!');
+    if ($request->ajax()) {
+      return response()->json(['success' => true]);
+    } else {
+      return redirect(route('admin.configure'))->with('status', 'Successfully updated the configuration!');
+    }
   }
 
   public function updateEmailList(Request $request) {

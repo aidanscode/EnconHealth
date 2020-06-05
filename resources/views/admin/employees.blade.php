@@ -10,7 +10,7 @@
   };
 </script>
 
-<script src="{{ asset('js/pages/employees.js') }}" defer></script>
+<script src="{{ autoversion('js/pages/employees.js') }}" defer></script>
 @endsection
 
 @section('content')

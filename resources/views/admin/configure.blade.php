@@ -11,7 +11,7 @@
   ];
 </script>
 
-<script src="{{ asset('js/pages/configuration.js') }}" defer></script>
+<script src="{{ autoversion('js/pages/configuration.js') }}" defer></script>
 @endsection
 
 @section('content')

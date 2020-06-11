@@ -31,9 +31,9 @@
   <br>
 
   <form class="form-inline mb-3">
-    <input type="text" id="date-selection" class="form-control datepicker mr-3" placeholder="Date Selection" />
+    <input type="text" id="date-selection" class="form-control datepicker mr-3 mt-3" placeholder="Date Selection" />
 
-    <button type="button" id="filter-submit-btn" class="btn btn-primary">
+    <button type="button" id="filter-submit-btn" class="btn btn-primary mt-3 mt-md-3">
       <span id="filter-spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
       Search
     </button>
@@ -63,7 +63,7 @@
 </div>
 
 <template id="response-template">
-<li class="list-group-item">
+<li class="list-group-item mb-3">
   <p>
     <span class="name"></span> &lt;<span class="email"></span>&gt;
   </p>
@@ -72,7 +72,7 @@
 </template>
 
 <template id="no-response-template">
-<li class="list-group-item">
+<li class="list-group-item mb-3">
   <p>
     <span class="name"></span> &lt;<span class="email"></span>&gt;
   </p>

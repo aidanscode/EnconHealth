@@ -42,7 +42,7 @@
       <option value="{{ $user->id }}">{{ $user->full_name }}</option>
       @endforeach
     </select>
-    <button type="button" id="filter-submit-btn" class="btn btn-primary ml-3">
+    <button type="button" id="filter-submit-btn" class="btn btn-primary ml-md-3 mt-3 mt-md-3">
       <span id="filter-spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
       Search
     </button>
